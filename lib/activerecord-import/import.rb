@@ -310,7 +310,7 @@ class ActiveRecord::Base
     def add_special_rails_stamps( column_names, array_of_attributes, options )
       AREXT_RAILS_COLUMNS[:create].each_pair do |key, blk|
         if self.column_names.include?(key)
-          value = blk.call
+          value = blk.call.to_s(:db)
           if index=column_names.index(key)
              # replace every instance of the array of attributes with our value
              array_of_attributes.each{ |arr| arr[index] = value }
@@ -323,7 +323,7 @@ class ActiveRecord::Base
 
       AREXT_RAILS_COLUMNS[:update].each_pair do |key, blk|
         if self.column_names.include?(key)
-          value = blk.call
+          value = blk.call.to_s(:db)
           if index=column_names.index(key)
              # replace every instance of the array of attributes with our value
              array_of_attributes.each{ |arr| arr[index] = value }
